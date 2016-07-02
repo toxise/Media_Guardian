@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.apps.common.proguard.UsedByReflection;
 import com.vintech.mediaguardian.framework.FrameEvent;
 import com.vintech.mediaguardian.framework.WorkspaceLayout;
 import com.vintech.util.tool.PermissionTool;
@@ -60,11 +61,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    Menu mMenu;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        mMenu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -97,13 +102,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventRequestPermission(FrameEvent.EventRequestPermission event) {
-        if (!PermissionTool.hasPermission(this, event.mPermission) && ActivityCompat.shouldShowRequestPermissionRationale(this, event.mPermission)) {
-            ActivityCompat.requestPermissions(this, new String[]{event.mPermission}, REQUEST_PERMISSION);
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -113,4 +111,20 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
+
+    @UsedByReflection
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventRequestPermission(FrameEvent.EventRequestPermission event) {
+        if (!PermissionTool.hasPermission(this, event.mPermission) && ActivityCompat.shouldShowRequestPermissionRationale(this, event.mPermission)) {
+            ActivityCompat.requestPermissions(this, new String[]{event.mPermission}, REQUEST_PERMISSION);
+        }
+    }
+
+    @UsedByReflection
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventRequestPermission(FrameEvent.EventSetMenu event) {
+        mMenu.clear();
+        getMenuInflater().inflate(event.mMenuId, mMenu);
+    }
+
 }

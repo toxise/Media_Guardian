@@ -39,7 +39,7 @@ public class VideoControlGesture {
                 } else {
                     mGestureMaked = GESTURE_SLIDE;
                     int slideTime = computeGestureSlideTime((float) Math.sqrt(distance));
-                    mGestureData = x > mDownX ? -slideTime : slideTime;
+                    mGestureData = x > mDownX ? slideTime : -slideTime;
                 }
                 break;
             case MotionEvent.ACTION_DOWN:

@@ -9,5 +9,5 @@ import com.vintech.mediaguardian.MainApplication;
  */
 public class Machine {
     public static final boolean IS_M = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
-    public static final String OBB_PATH = MainApplication.getContext().getObbDir().getPath();
+    public static final String OBB_PATH = MainApplication.getContext().getFilesDir().getPath();
 }

@@ -36,7 +36,7 @@ public class VideoGalleryLayout extends FrameLayout implements View.OnClickListe
         mPlus = (FloatingActionButton) findViewById(R.id.plus);
         mGallery = (RecyclerView) findViewById(R.id.gallery);
         mGallery.addItemDecoration(new VideoGalleryItemDecoration());
-        mAdapter = new VideoGalleryAdapter();
+        mAdapter = new VideoGalleryAdapter(mGallery);
         mGallery.setAdapter(mAdapter);
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), 3);
@@ -59,7 +59,7 @@ public class VideoGalleryLayout extends FrameLayout implements View.OnClickListe
         switch (event.type) {
             case PhotoEvents.EventEncryptPhotoChanged.TYPE_BIND:
             case PhotoEvents.EventEncryptPhotoChanged.TYPE_ADD:
-                mAdapter.addPhotoBean(event.photoBean);
+                mAdapter.addVideoBean(event.photoBean);
                 mAdapter.notifyDataSetChanged();
                 break;
 

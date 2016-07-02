@@ -7,6 +7,6 @@ import android.util.Log;
  */
 public class PGW {
     public static void log(Object obj) {
-        Log.d("PGW", "" + obj);
+        Log.e("PGW", "" + obj);
     }
 }
