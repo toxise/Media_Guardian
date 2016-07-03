@@ -16,8 +16,7 @@ import java.io.File;
 /**
  * Created by Vincent on 2016/5/28.
  */
-public class VideoEncryptTask extends BaseEncryptTask {
-    public static final String ENCRYPT_NAME = ".guardian";
+public class VideoEncryptTask extends BaseCryptTask {
     private String mOriPath;
 
     public VideoEncryptTask(String str) {

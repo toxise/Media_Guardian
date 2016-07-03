@@ -15,7 +15,7 @@ import java.io.File;
 /**
  * Created by Vincent on 2016/5/28.
  */
-public class PhotoEncryptTask extends BaseEncryptTask {
+public class PhotoEncryptTask extends BaseCryptTask {
     public static final String ENCRYPT_NAME = ".guardian";
     private String mOriPath;
 

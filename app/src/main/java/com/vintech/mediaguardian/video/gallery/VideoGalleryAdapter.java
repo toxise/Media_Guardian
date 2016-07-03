@@ -62,6 +62,24 @@ public class VideoGalleryAdapter extends RecyclerView.Adapter<VideoGalleryAdapte
         VideoPreviewLoader.display(video.getEncryptPath(), itemView.mImageView);
     }
 
+    public List<VideoBean> getSelected() {
+        if (mSelectMode) {
+            return new ArrayList<>(mVideoSelected);
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    public boolean disableSelectMode() {
+        if (!mSelectMode) {
+            return false;
+        }
+
+        mSelectMode = false;
+        updateSelectModeStatus();
+        return true;
+    }
+
     private Drawable getDefaultDrawable() {
         if (mDefault == null) {
             mDefault = new ColorDrawable(0xffb4b4b4);
@@ -98,18 +116,27 @@ public class VideoGalleryAdapter extends RecyclerView.Adapter<VideoGalleryAdapte
     @Override
     public boolean onLongClick(View view) {
         mSelectMode = !mSelectMode;
-        if (mGalleryView != null) {
+        updateSelectModeStatus();
+        EventBus.getDefault().post(new FrameEvent.EventSetMenu(R.menu.video_gallery_decrypt));
+        return true;
+    }
+
+    private void updateSelectModeStatus() {
+        if (mGalleryView == null) {
+            return;
+        }
             PGW.log("update items checkable states in recycler view ");
             final int childCount = mGalleryView.getChildCount();
             for (int i = 0; i < childCount; i++) {
                 VideoGalleryItemView childAt = (VideoGalleryItemView) mGalleryView.getChildAt(i);
                 updateCheckBoxVisilble(childAt, (VideoBean) childAt.getTag());
             }
-        }
-        EventBus.getDefault().post(new FrameEvent.EventSetMenu(R.menu.video_gallery_decrypt));
-        return true;
     }
 
+
+    /**
+     * view holder 到视频view
+     */
     public static class GalleryViewHolder extends RecyclerView.ViewHolder {
         public GalleryViewHolder(View itemView) {
             super(itemView);

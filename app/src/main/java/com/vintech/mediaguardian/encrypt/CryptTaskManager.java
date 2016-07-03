@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * Created by Vincent on 2016/5/28.
  */
-public class EncryptTaskManager {
-    private static List<BaseEncryptTask> sTasks = new ArrayList<>();
+public class CryptTaskManager {
+    private static List<BaseCryptTask> sTasks = new ArrayList<>();
     private static Handler sHandler;
 
     static {
@@ -19,12 +19,12 @@ public class EncryptTaskManager {
         sHandler = new Handler(thread.getLooper());
     }
 
-    public synchronized static void addTask(BaseEncryptTask task) {
+    public synchronized static void addTask(BaseCryptTask task) {
         sTasks.add(task);
         sHandler.post(task);
     }
 
-    public synchronized static void onTaskFinished(BaseEncryptTask task) {
+    public synchronized static void onTaskFinished(BaseCryptTask task) {
         sTasks.remove(task);
     }
 

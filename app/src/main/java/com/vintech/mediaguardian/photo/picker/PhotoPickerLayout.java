@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.vintech.mediaguardian.R;
-import com.vintech.mediaguardian.encrypt.EncryptTaskManager;
+import com.vintech.mediaguardian.encrypt.CryptTaskManager;
 import com.vintech.mediaguardian.encrypt.PhotoEncryptTask;
 import com.vintech.mediaguardian.framework.FrameEvent;
 import com.vintech.mediaguardian.framework.IWorkspaceFrame;
@@ -119,7 +119,7 @@ public class PhotoPickerLayout extends FrameLayout implements View.OnClickListen
             ArrayList<String> selectedList = adapter.getSelectedList();
             for (String str : selectedList) {
                 adapter.removeItem(str);
-                EncryptTaskManager.addTask(new PhotoEncryptTask(str));
+                CryptTaskManager.addTask(new PhotoEncryptTask(str));
             }
             adapter.notifyDataSetChanged();
             EventBus.getDefault().post(new FrameEvent.EventSetLayout(R.id.photo_gallery_layout));

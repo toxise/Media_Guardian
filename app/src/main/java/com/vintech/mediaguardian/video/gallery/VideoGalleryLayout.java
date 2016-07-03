@@ -9,14 +9,19 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.vintech.mediaguardian.R;
+import com.vintech.mediaguardian.encrypt.CryptTaskManager;
+import com.vintech.mediaguardian.encrypt.VideoDecryptTask;
 import com.vintech.mediaguardian.framework.FrameEvent;
 import com.vintech.mediaguardian.framework.IWorkspaceFrame;
 import com.vintech.mediaguardian.photo.PhotoEvents;
 import com.vintech.mediaguardian.video.VideoEvents;
+import com.vintech.mediaguardian.video.gallery.model.VideoBean;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 /**
  * Created by Vincent on 2016/5/28.
@@ -66,8 +71,21 @@ public class VideoGalleryLayout extends FrameLayout implements View.OnClickListe
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventDecryptSelected(VideoEvents.EventVideoDecryptSelected event) {
+        List<VideoBean> videoBeanList = mAdapter.getSelected();
+        for (VideoBean bean : videoBeanList) {
+            CryptTaskManager.addTask(new VideoDecryptTask(bean));
+        }
+        EventBus.getDefault().post(new FrameEvent.EventSetMenu(FrameEvent.EventSetMenu.ID_MENU_DEFAULT));
+
+    }
+
     @Override
     public boolean handleBackKey() {
+        if (mAdapter.disableSelectMode()) {
+            return true;
+        }
         return false;
     }
 }

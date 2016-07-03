@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.google.android.apps.common.proguard.UsedByReflection;
 import com.vintech.mediaguardian.framework.FrameEvent;
 import com.vintech.mediaguardian.framework.WorkspaceLayout;
+import com.vintech.mediaguardian.video.VideoEvents;
 import com.vintech.util.tool.PermissionTool;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int REQUEST_PERMISSION = 100;
+
+    
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +65,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    Menu mMenu;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         mMenu = menu;
@@ -78,7 +81,15 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
-        return super.onOptionsItemSelected(item);
+
+        switch (id) {
+            case R.id.action_settings:
+                break;
+            case R.id.action_decrypt:
+                EventBus.getDefault().post(new VideoEvents.EventVideoDecryptSelected());
+                break;
+        }
+        return true;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -124,7 +135,14 @@ public class MainActivity extends AppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRequestPermission(FrameEvent.EventSetMenu event) {
         mMenu.clear();
-        getMenuInflater().inflate(event.mMenuId, mMenu);
+
+        int menuId = event.mMenuId;
+        if (menuId == FrameEvent.EventSetMenu.ID_MENU_DEFAULT) {
+            menuId = R.menu.main;
+        } else if (menuId == FrameEvent.EventSetMenu.ID_MENU_NONE) {
+            return;
+        }
+        getMenuInflater().inflate(menuId, mMenu);
     }
 
 }

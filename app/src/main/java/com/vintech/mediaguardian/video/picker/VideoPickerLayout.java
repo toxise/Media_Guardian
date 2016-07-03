@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.vintech.mediaguardian.R;
-import com.vintech.mediaguardian.encrypt.EncryptTaskManager;
+import com.vintech.mediaguardian.encrypt.CryptTaskManager;
 import com.vintech.mediaguardian.encrypt.VideoEncryptTask;
 import com.vintech.mediaguardian.framework.FrameEvent;
 import com.vintech.mediaguardian.framework.IWorkspaceFrame;
@@ -125,7 +125,7 @@ public class VideoPickerLayout extends FrameLayout implements View.OnClickListen
             ArrayList<String> selectedList = adapter.getSelectedList();
             for (String str : selectedList) {
                 adapter.removeItem(str);
-                EncryptTaskManager.addTask(new VideoEncryptTask(str));
+                CryptTaskManager.addTask(new VideoEncryptTask(str));
             }
             adapter.notifyDataSetChanged();
             EventBus.getDefault().post(new FrameEvent.EventSetLayout(R.id.video_gallery_layout));
@@ -134,7 +134,7 @@ public class VideoPickerLayout extends FrameLayout implements View.OnClickListen
 
     @Override
     public boolean handleBackKey() {
-//        EventBus.getDefault().post(new FrameEvent.EventSetLayout(R.id.video_gallery_layout));
-        return false;
+        EventBus.getDefault().post(new FrameEvent.EventSetLayout(R.id.video_gallery_layout));
+        return true;
     }
 }

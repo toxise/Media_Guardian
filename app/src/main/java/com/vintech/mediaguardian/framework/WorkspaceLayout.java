@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.google.android.apps.common.proguard.UsedByNative;
 import com.vintech.mediaguardian.R;
 
 import org.greenrobot.eventbus.EventBus;
